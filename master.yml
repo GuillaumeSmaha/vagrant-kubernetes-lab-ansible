@@ -1,0 +1,12 @@
+---
+# Site file
+
+###
+#  Playbook for all host
+###
+- include: all.yml
+
+###
+# Playbook for Gluu
+##
+- include: .yml

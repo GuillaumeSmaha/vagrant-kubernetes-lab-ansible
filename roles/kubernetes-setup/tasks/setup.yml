@@ -1,0 +1,32 @@
+---
+# name: General package installation
+
+- name: Update and upgrade apt packages
+  apt:
+    upgrade: yes
+    update_cache: yes
+
+- name: Get value of uname -r
+  command: uname -r
+  ignore_errors: yes
+  register: uname_result
+
+- name: Get value of lsb_release -cs
+  command: lsb_release -cs
+  ignore_errors: yes
+  register: lsb_release_cs_result
+
+- name: Installation de l'image linux
+  package:
+    name="{{ item }}"
+    state=present
+  with_items:
+    - linux-image-{{ uname_result.stdout }}
+    - linux-image-extra-{{ uname_result.stdout }}
+
+- name: Installation de Nfs
+  package:
+    name="{{ item }}"
+    state=present
+  with_items:
+    - nfs-common

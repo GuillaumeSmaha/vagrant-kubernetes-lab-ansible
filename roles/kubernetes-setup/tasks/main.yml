@@ -1,0 +1,8 @@
+---
+# name: General package installation
+
+- include: setup.yml
+
+- include: docker.yml
+
+- include: kubernetes.yml

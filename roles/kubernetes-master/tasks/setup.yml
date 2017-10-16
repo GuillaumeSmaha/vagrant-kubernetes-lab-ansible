@@ -1,0 +1,13 @@
+---
+# name: General package installation
+
+- name: Generate random UUID
+  stat:
+    path: /etc/kubernetes/admin.conf
+  register: master_initialized
+
+- name: Initialize master
+  apt:
+    upgrade: yes
+    update_cache: yes
+  when: master_initialized.stat.exists == False

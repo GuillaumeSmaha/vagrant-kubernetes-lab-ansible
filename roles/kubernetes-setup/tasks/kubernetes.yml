@@ -1,0 +1,38 @@
+---
+# name: General package installation
+
+
+- name: Add apt key for Kubernetes
+  apt_key:
+    url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+    state: present
+
+- name: Add Kubernetes repository
+  apt_repository:
+    repo: https://packages.cloud.google.com/apt/ kubernetes-{{ lsb_release_cs_result.stdout }} main
+    state: present
+
+
+- name: Installation de Kubernetes
+  package:
+    name="{{ item }}"
+    state=present
+  with_items:
+    - kubelet
+    - kubeadm
+    - kubectl
+    - kubernetes-cni
+
+
+- name: Disable swap in kubelet configuration
+  lineinfile:
+    path: /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
+    regexp: '^Environment="KUBELET_EXTRA_ARGS=.*'
+    line: 'Environment="KUBELET_EXTRA_ARGS=--fail-swap-on=false"'
+      sed -i '/ExecStart=$/i Environment="KUBELET_EXTRA_ARGS=--fail-swap-on=false"' /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
+      systemctl daemon-reload
+
+- name: Start docker service
+  service:
+    name: daemon-reload
+    state: restarted

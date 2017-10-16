@@ -1,0 +1,4 @@
+---
+# name: General package installation
+
+- include: setup.yml

@@ -1,0 +1,37 @@
+---
+# name: General package installation
+
+- name: Add apt key for Docker
+  apt_key:
+    id: 0x0EBFCD88
+    state: present
+
+- name: Add Docker repository
+  apt_repository:
+    repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ lsb_release_cs_result.stdout }} stable
+    state: present
+
+
+- name: Installation de Docker
+  package:
+    name="{{ item }}"
+    state=present
+  with_items:
+    - docker-ce
+
+
+- name: Docker group
+  group:
+    name: docker
+    state: present
+    system: yes
+
+- name: Enable docker service
+  service:
+    name: docker
+    enabled: yes
+
+- name: Start docker service
+  service:
+    name: docker
+    state: started

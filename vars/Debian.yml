@@ -1,0 +1,14 @@
+---
+# Load variables by OS
+
+####################
+# Debian variables
+####################
+
+# Package to install
+common_install: [ telnet, vim, nano, unzip, wget, net-tools, screen, tcpdump, ntp ]
+
+#Package to remove
+common_remove: []
+
+
