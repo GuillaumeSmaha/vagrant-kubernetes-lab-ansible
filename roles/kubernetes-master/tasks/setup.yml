@@ -1,13 +1,14 @@
 ---
 # name: General package installation
 
-- name: Generate random UUID
+- name: Check if master is initialized
   stat:
     path: /etc/kubernetes/admin.conf
   register: master_initialized
 
 - name: Initialize master
-  apt:
-    upgrade: yes
-    update_cache: yes
+  command: kubeadm 192.168.8.10 -apiserver-advertise-address  --pod-network-cidr 10.244.0.0/16
   when: master_initialized.stat.exists == False
+
+- name: Create token
+  command: kubeadm token create
