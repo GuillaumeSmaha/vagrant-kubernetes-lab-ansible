@@ -7,7 +7,7 @@
   register: master_initialized
 
 - name: Initialize master
-  command: kubeadm 192.168.8.10 -apiserver-advertise-address  --pod-network-cidr 10.244.0.0/16
+  command: "kubeadm init --apiserver-advertise-address {{ kube_master_ip }}  --pod-network-cidr {{ kube_pod_network }} --skip-preflight-checks"
   when: master_initialized.stat.exists == False
 
 - name: Create token

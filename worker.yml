@@ -1,8 +1,9 @@
 ---
-- hosts: k8smasters
+- hosts: k8sworkers
   become: true
   become_user: root
   become_method: sudo
 
   roles:
-    - kubernetes-master
+    # - kubernetes-worker
+    - kubernetes-helm

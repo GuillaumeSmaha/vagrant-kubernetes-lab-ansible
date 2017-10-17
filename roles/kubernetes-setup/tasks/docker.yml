@@ -3,7 +3,8 @@
 
 - name: Add apt key for Docker
   apt_key:
-    id: 0x0EBFCD88
+    id: "0x0EBFCD88"
+    keyserver: "hkp://p80.pool.sks-keyservers.net:80"
     state: present
 
 - name: Add Docker repository

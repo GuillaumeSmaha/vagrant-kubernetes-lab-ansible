@@ -7,12 +7,12 @@
   register: helm_exist
 
 - name: Get current helm client version
-  shell: helm version --short -c|grep -oP ": v\K([0-9.]+)(?=\+)"
+  shell: 'helm version --short -c|grep -oP ": v\K([0-9.]+)(?=\+)"'
   register: helm_version_current_client
   when: helm_exist.stat.exists == True
 
 - name: Get current helm server version
-  shell: helm version --short -c|grep -oP ": v\K([0-9.]+)(?=\+)"
+  shell: 'helm version --short -c|grep -oP ": v\K([0-9.]+)(?=\+)"'
   register: helm_version_current_server
   when: helm_exist.stat.exists == True
 

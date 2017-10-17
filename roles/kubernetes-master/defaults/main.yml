@@ -1,3 +1,6 @@
 ---
 # Default variables
 
+kube_master_ip: "{{ ansible_default_ipv4.address }}"
+
+kube_pod_network: 10.244.0.0/16

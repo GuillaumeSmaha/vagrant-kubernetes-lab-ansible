@@ -1,11 +1,5 @@
-[gluu-servers]
-main ansible_ssh_host=192.168.56.103 ansible_ssh_port=22 ansible_ssh_user='root' ansible_ssh_private_key_file='~/.ssh/vms'
-#main ansible_ssh_host=centos7 ansible_ssh_port=22 ansible_ssh_user='root' ansible_ssh_private_key_file='~/.ssh/lxc'
+[k8smasters]
+k8smaster ansible_ssh_host=10.97.41.21 ansible_ssh_port=22 ansible_ssh_user='root' ansible_ssh_private_key_file='.deploy/keys/key_k8smaster'
 
-[gluu-configuration]
-main ansible_ssh_host=192.168.56.103 ansible_ssh_port=22 ansible_ssh_user='root' ansible_ssh_private_key_file='~/.ssh/vms'
-#main ansible_ssh_host=centos7 ansible_ssh_port=22 ansible_ssh_user='root' ansible_ssh_private_key_file='~/.ssh/lxc'
-
-[gluu-oxauth]
-main ansible_ssh_host=192.168.56.103 ansible_ssh_port=22 ansible_ssh_user='root' ansible_ssh_private_key_file='~/.ssh/vms'
-#main ansible_ssh_host=centos7 ansible_ssh_port=22 ansible_ssh_user='root' ansible_ssh_private_key_file='~/.ssh/lxc'
+[k8s-workers]
+k8sworker ansible_ssh_host=10.97.41.99 ansible_ssh_port=22 ansible_ssh_user='root' ansible_ssh_private_key_file='.deploy/keys/key_k8sworker'

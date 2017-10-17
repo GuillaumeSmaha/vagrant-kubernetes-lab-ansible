@@ -30,3 +30,20 @@
     state=present
   with_items:
     - nfs-common
+
+- name: Installation de bridge-utils
+  package:
+    name="{{ item }}"
+    state=present
+  with_items:
+    - bridge-utils
+    - ebtables
+
+- name: Enable kernel module
+  modprobe:
+    name="{{ item }}"
+    state=present
+  with_items:
+    - bridge
+    - br_netfilter
+    - ebtable_broute
