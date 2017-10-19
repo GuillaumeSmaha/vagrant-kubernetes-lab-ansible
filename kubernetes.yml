@@ -1,0 +1,25 @@
+---
+
+- hosts: k8smasters
+  become: true
+  become_user: root
+  become_method: sudo
+  roles:
+    - kubernetes-master
+
+
+- hosts: k8sworkers
+  become: true
+  become_user: root
+  become_method: sudo
+  roles:
+    - kubernetes-worker
+    - kubernetes-helm
+
+
+- hosts: all
+  become: true
+  become_user: root
+  become_method: sudo
+  roles:
+    - kubernetes-deploy-pods

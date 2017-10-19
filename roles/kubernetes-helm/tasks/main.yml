@@ -18,7 +18,7 @@
 
 
 # Download & install helm
-- name: Create temporary helm directory
+- name: Create temporary directory
   tempfile:
     state: directory
     suffix: helm
