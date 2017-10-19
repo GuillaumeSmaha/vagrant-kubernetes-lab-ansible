@@ -5,6 +5,7 @@
   become_method: sudo
   roles:
     - common
+    - fail2ban
     - kubernetes-setup
 
 - import_tasks: "kubernetes.yml"

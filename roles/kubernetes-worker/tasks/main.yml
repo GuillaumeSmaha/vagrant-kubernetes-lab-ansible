@@ -1,0 +1,28 @@
+---
+# name: Kubernetes worker installation
+
+- name: Check if worker is initialized
+  stat:
+    path: /etc/kubernetes/kubelet.conf
+  register: worker_initialized
+
+- name: Get first master
+  set_fact:
+    kubernetes_master: "{{ groups['k8smasters'][0] }}"
+
+- name: Create /root/.kube directory
+  file:
+    path: /root/.kube
+    state: directory
+
+- name: Copy content of /etc/kubernetes/admin.conf from master to /root/.kube/config
+  template:
+    src: config
+    dest: /root/.kube/config
+
+- name: Initialize worker
+  command: "kubeadm join --token={{ hostvars[kubernetes_master]['kubernetes_token'] }} {{ hostvars[kubernetes_master]['kube_master_ip'] }}:6443 --skip-preflight-checks"
+  when: worker_initialized.stat.exists == False
+
+
+

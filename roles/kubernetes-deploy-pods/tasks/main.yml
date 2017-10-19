@@ -1,0 +1,45 @@
+---
+# name: Deploy pods
+
+
+# - name: Get first master
+#   set_fact:
+#     kubernetes_master: "{{ groups['k8smasters'][0] }}"
+
+
+- name: Create temporary directory
+  tempfile:
+    state: directory
+    suffix: helm
+  register: tmpdir
+
+
+- name: Create temporary directory for pods configuration
+  file:
+    path: "{{ tmpdir.path }}/{{ item | dirname }}"
+    state: directory
+  with_items:
+    - "{{ kubernetes_pods | default([]) }}"
+
+
+- name: Copy pods configuration
+  template:
+    src: "{{ item }}"
+    dest: "{{ tmpdir.path }}/{{ item }}"
+  with_items:
+    - "{{ kubernetes_pods | default([]) }}"
+
+
+- name: Deploy pods
+  command: "kubectl create -f {{ tmpdir.path }}/{{ item }}"
+  environment:
+    KUBECONFIG: /root/.kube/config
+  ignore_errors: true
+  with_items:
+    - "{{ kubernetes_pods | default([]) }}"
+
+
+- name: Delete tmp directory
+  file:
+    path: '{{ tmpdir.path }}'
+    state: absent

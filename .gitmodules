@@ -1,0 +1,3 @@
+[submodule "roles/fail2ban"]
+	path = roles/fail2ban
+	url = https://github.com/ANXS/fail2ban.git

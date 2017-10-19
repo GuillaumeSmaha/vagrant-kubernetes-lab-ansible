@@ -1,0 +1,2 @@
+
+{{ hostvars[kubernetes_master]['kubernetes_admin_conf'] }}
