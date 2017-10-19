@@ -13,7 +13,7 @@
     state: present
 
 
-- name: Installation de Docker
+- name: Install Docker
   package:
     name="{{ item }}"
     state=present

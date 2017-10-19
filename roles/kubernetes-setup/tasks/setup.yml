@@ -16,26 +16,14 @@
   ignore_errors: yes
   register: lsb_release_cs_result
 
-- name: Installation de l'image linux
+- name: Install linux image, nfs, bridge-utils
   package:
     name="{{ item }}"
     state=present
   with_items:
     - linux-image-{{ uname_result.stdout }}
     - linux-image-extra-{{ uname_result.stdout }}
-
-- name: Installation de Nfs
-  package:
-    name="{{ item }}"
-    state=present
-  with_items:
     - nfs-common
-
-- name: Installation de bridge-utils
-  package:
-    name="{{ item }}"
-    state=present
-  with_items:
     - bridge-utils
     - ebtables
 

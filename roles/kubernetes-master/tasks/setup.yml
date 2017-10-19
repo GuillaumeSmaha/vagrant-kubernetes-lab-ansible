@@ -26,6 +26,12 @@
   set_fact:
     kubernetes_token: "{{ kubernetes_token.stdout }}"
 
+- name: Copy content of /etc/kubernetes/admin.conf to /root/.kube/config
+  copy:
+    src: /etc/kubernetes/admin.conf
+    dest: /root/.kube/config
+    remote_src: yes
+
 - name: Get Generated Configuration of /etc/kubernetes/admin.conf - Get content
   slurp:
     src: /etc/kubernetes/admin.conf

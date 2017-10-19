@@ -36,6 +36,7 @@
   copy:
     src: '{{ tmpdir.path }}/linux-amd64/helm'
     dest: '/usr/local/bin/helm'
+    mode: 0755
     remote_src: yes
   when: helm_exist.stat.exists == False or helm_version_current_client.stdout != helm_version
 
@@ -46,17 +47,19 @@
   when: helm_exist.stat.exists == False or helm_version_current_client.stdout != helm_version
 
 
-
-
 # Tiller service account
 - name: Check serviceaccount "tiller"
   command: kubectl get serviceaccount -n kube-system tiller
   ignore_errors: yes
   register: kubectl_serviceaccount_tiller_exist
+  environment:
+    KUBECONFIG: /root/.kube/config
 
 - name: Create serviceaccount "tiller"
   command: kubectl create serviceaccount -n kube-system tiller
   when: kubectl_serviceaccount_tiller_exist.rc != 0
+  environment:
+    KUBECONFIG: /root/.kube/config
 
 
 # Tiller role binding
@@ -64,10 +67,14 @@
   command: kubectl get clusterrolebinding tiller-cluster-rule
   ignore_errors: yes
   register: kubectl_clusterrolebinding_tiller_exist
+  environment:
+    KUBECONFIG: /root/.kube/config
 
 - name: Create clusterrolebinding for "tiller"
   command: kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
   when: kubectl_clusterrolebinding_tiller_exist.rc != 0
+  environment:
+    KUBECONFIG: /root/.kube/config
 
 
 # Install helm
@@ -76,9 +83,9 @@
   when: helm_exist.stat.exists == False or kubectl_clusterrolebinding_tiller_exist.rc != 0
 
 # Upgrade helm
-- name: Install helm server
+- name: Upgrade helm server
   command: helm init --upgrade
-  when: helm_exist.stat.exists == True
+  when: helm_exist.stat.exists == True and helm_version_current_server.stdout != helm_version
 
 
 

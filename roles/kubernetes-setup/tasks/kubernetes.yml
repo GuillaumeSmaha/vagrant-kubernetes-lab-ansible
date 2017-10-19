@@ -13,7 +13,7 @@
     state: present
 
 
-- name: Installation de Kubernetes
+- name: Install Kubernetes
   package:
     name="{{ item }}"
     state=present
