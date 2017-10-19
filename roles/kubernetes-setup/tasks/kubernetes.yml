@@ -23,6 +23,15 @@
     - kubectl
     - kubernetes-cni
 
+- name: Enable kubelet service
+  service:
+    name: kubelet
+    enabled: yes
+
+- name: Start kubelet service
+  service:
+    name: kubelet
+    state: started
 
 - name: Disable swap in kubelet configuration
   lineinfile:
@@ -35,7 +44,7 @@
   command: systemctl daemon-reload
   when: kubelet_disable_swap.changed
 
-- name: Restart kubelet service
+- name: Restart kubelet service after update configuration
   service:
     name: kubelet
     state: restarted

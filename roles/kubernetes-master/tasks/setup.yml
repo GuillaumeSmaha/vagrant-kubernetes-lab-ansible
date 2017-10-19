@@ -10,5 +10,27 @@
   command: "kubeadm init --apiserver-advertise-address {{ kube_master_ip }}  --pod-network-cidr {{ kube_pod_network }} --skip-preflight-checks"
   when: master_initialized.stat.exists == False
 
+- name: Wait 300 seconds for port 6443 to become open on the host {{ kube_master_ip }}
+  wait_for:
+    host: '{{ kube_master_ip }}'
+    port: 6443
+    state: started
+
 - name: Create token
-  command: kubeadm token create
+  command: kubeadm token create --ttl 30m
+  register: kubernetes_token
+  environment:
+    KUBECONFIG: /etc/kubernetes/admin.conf
+
+- name: Create token - Set fact
+  set_fact:
+    kubernetes_token: "{{ kubernetes_token.stdout }}"
+
+- name: Get Generated Configuration of /etc/kubernetes/admin.conf - Get content
+  slurp:
+    src: /etc/kubernetes/admin.conf
+  register: kubernetes_admin_conf_slurp
+
+- name: Get Generated Configuration of /etc/kubernetes/admin.conf - Register in variable
+  set_fact:
+    kubernetes_admin_conf: "{{ kubernetes_admin_conf_slurp['content'] | b64decode }}"

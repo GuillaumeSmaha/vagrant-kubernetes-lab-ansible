@@ -9,13 +9,13 @@
     - "{{ ansible_os_family }}.yml"
     - "../vars/default.yml"
 
-- name: Installation des paquets communs
+- name: Installation common package
   package:
     name="{{ item }}"
     state=present
   with_items: "{{common_install}}"
 
-- name: Enlévement de paquest superflus
+- name: Remove useless package
   package:
     name="{{ item }}"
     state=absent

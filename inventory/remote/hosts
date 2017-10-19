@@ -1,5 +1,5 @@
 [k8smasters]
-k8smaster ansible_ssh_host=10.97.41.21 ansible_ssh_port=22 ansible_ssh_user='root' ansible_ssh_private_key_file='.deploy/keys/key_k8smaster'
+k8smaster ansible_ssh_host=10.0.3.254 ansible_ssh_port=22 ansible_ssh_user='vagrant' ansible_ssh_private_key_file='../vagrant-kubernetes-lab/.vagrant/machines/k8smaster/lxc/private_key'
 
-[k8s-workers]
-k8sworker ansible_ssh_host=10.97.41.99 ansible_ssh_port=22 ansible_ssh_user='root' ansible_ssh_private_key_file='.deploy/keys/key_k8sworker'
+[k8sworkers]
+k8sworker ansible_ssh_host=10.0.3.59 ansible_ssh_port=22 ansible_ssh_user='vagrant' ansible_ssh_private_key_file='../vagrant-kubernetes-lab/.vagrant/machines/k8sworker/lxc/private_key'

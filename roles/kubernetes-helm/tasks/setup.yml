@@ -27,21 +27,22 @@
 
 - name: Download helm {{ helm_version }} and extract it
   unarchive:
-    src: https://storage.googleapis.com/kubernetes-helm/helm-v{{ help_version }}-linux-amd64.tar.gz
+    src: https://storage.googleapis.com/kubernetes-helm/helm-v{{ helm_version }}-linux-amd64.tar.gz
     dest: '{{ tmpdir.path }}'
+    remote_src: yes
   when: helm_exist.stat.exists == False or helm_version_current_client.stdout != helm_version
 
 - name: Install helm {{ helm_version }}
-  unarchive:
-    src: https://storage.googleapis.com/kubernetes-helm/helm-v{{ help_version }}-linux-amd64.tar.gz
-    dest: '{{ tmpdir.path }}'
+  copy:
+    src: '{{ tmpdir.path }}/linux-amd64/helm'
+    dest: '/usr/local/bin/helm'
+    remote_src: yes
   when: helm_exist.stat.exists == False or helm_version_current_client.stdout != helm_version
 
 - name: Delete tmp directory
   file:
-    path: '{{ tmpdir.path }}/helm'
-    dest: '/usr/local/bin/helm'
-    remote_src: yes
+    path: '{{ tmpdir.path }}'
+    state: absent
   when: helm_exist.stat.exists == False or helm_version_current_client.stdout != helm_version
 
 

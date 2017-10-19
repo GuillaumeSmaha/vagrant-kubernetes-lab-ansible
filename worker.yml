@@ -5,5 +5,5 @@
   become_method: sudo
 
   roles:
-    # - kubernetes-worker
+    - kubernetes-worker
     - kubernetes-helm
