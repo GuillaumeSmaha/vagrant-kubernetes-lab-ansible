@@ -3,18 +3,31 @@
   become: true
   become_user: root
   become_method: sudo
-
   roles:
     - common
     - kubernetes-setup
 
 
-###
-# Playbook for Master
-##
-- import_playbook: master.yml
+- hosts: k8smasters
+  become: true
+  become_user: root
+  become_method: sudo
+  roles:
+    - kubernetes-master
 
-###
-# Playbook for Worker
-##
-- import_playbook: worker.yml
+
+- hosts: k8sworkers
+  become: true
+  become_user: root
+  become_method: sudo
+  roles:
+    - kubernetes-worker
+    - kubernetes-helm
+
+
+- hosts: all
+  become: true
+  become_user: root
+  become_method: sudo
+  roles:
+    - kubernetes-deploy-pods

@@ -1,8 +1,0 @@
----
-- hosts: k8smasters
-  become: true
-  become_user: root
-  become_method: sudo
-
-  roles:
-    - kubernetes-master

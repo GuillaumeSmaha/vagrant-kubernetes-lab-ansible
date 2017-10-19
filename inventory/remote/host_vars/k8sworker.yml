@@ -1,0 +1,4 @@
+
+kubernetes_pods:
+  - pods/monitoring/kube-heapster.yml
+  - pods/dashboard/kube-heapdashboardster.yml

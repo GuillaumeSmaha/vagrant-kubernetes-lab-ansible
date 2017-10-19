@@ -1,0 +1,4 @@
+
+kubernetes_pods:
+  - pods/networking/kube-weave.yml
+  # - pods/networking/kube-flannel.yml
